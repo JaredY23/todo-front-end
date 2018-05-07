@@ -9,11 +9,6 @@ class TodoListSection extends Component {
         completedTodoList:[]
     }
 
-    deleteTodo = this.deleteTodo.bind(this);
-    addTodo = this.addTodo.bind(this);
-    editTodo = this.editTodo.bind(this);
-    completeTodoList = this.completeTodoList.bind(this);
-
     deleteTodo(todo) {
         let todoList = this.state.todoList;
         let newTodoList = [...todoList];
@@ -50,7 +45,7 @@ class TodoListSection extends Component {
         })
     }
 
-    completeToDoList(todo) {
+    completeTodo(todo) {
         let todoList = this.state.todoList;
         let newTodoList = [...todoList];
         let indexOfTodoThatWillBeDeleted = todoList.indexOf(todo);
@@ -69,7 +64,11 @@ class TodoListSection extends Component {
         return (
             <TodoListContext.Provider value={{
                 todoList: this.state.todoList,
-                completedTodoList: this.state.completedTodoList
+                completedTodoList: this.state.completedTodoList,
+                deleteTodo: this.deleteTodo,
+                addTodo: this.addTodo,
+                editTodo: this.editTodo,
+                completeTodo: this.completeTodo
             }}
             >
                 <TodoList />              
