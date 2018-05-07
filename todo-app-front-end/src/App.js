@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import './App.css';
+import { TodoListSection } from './components';
+
+import './app.css';
 
 class App extends Component {
   render() {
     return (
-      <div></div>
+      <div className='app'>
+        <TodoListSection />
+      </div>
     );
   }
 }
