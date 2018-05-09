@@ -71,7 +71,9 @@ class TodoListSection extends Component {
                 completeTodo: this.completeTodo
             }}
             >
-                <TodoList />              
+                <div className='todo-section'>
+                    <TodoList />
+                </div>
             </TodoListContext.Provider>
         )
     }
