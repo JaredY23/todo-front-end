@@ -1,0 +1,13 @@
+.todo-list-container {
+    flex: 3;
+}
+
+.todo-list {
+    padding:  0;
+    margin:  0;
+}
+
+.todo-list li {
+    list-style-type:  none;
+    margin: 0 15px;
+}
