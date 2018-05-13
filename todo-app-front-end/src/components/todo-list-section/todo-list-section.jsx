@@ -1,18 +1,40 @@
 import React, { Component } from 'react';
 import { TodoList } from '../../components';
 
+import './todo-list-section.css';
+
 export const TodoListContext = React.createContext();
 
 class TodoListSection extends Component {
     state = {
         todoList: [],
-        completedTodoList:[]
+        completedTodoList:[],
+        isTemporaryTodoActive: false,
+        editingTodo: false,
+        inputValue: '',
+        idOfTodoClicked: null
+    }
+
+    showTemporaryTodo = this.showTemporaryTodo.bind(this);
+    setInputValue = this.setInputValue.bind(this);
+    deleteTodo = this.deleteTodo.bind(this);
+    addTodo = this.addTodo.bind(this);
+    editTodo = this.editTodo.bind(this);
+    completeTodo = this.completeTodo.bind(this);
+    showEditTodo = this.showEditTodo.bind(this);
+
+    setInputValue(e) {
+        this.setState({
+            ...this.state,
+            inputValue: e.target.value
+        })
     }
 
     deleteTodo(todo) {
         let todoList = this.state.todoList;
         let newTodoList = [...todoList];
-        let indexOfTodoThatWillBeDeleted = todoList.indexOf(todo);
+
+        let indexOfTodoThatWillBeDeleted = todoList.indexOf(todoList.filter((todo, index) => todo.value === todo));
 
         newTodoList.splice(indexOfTodoThatWillBeDeleted, 1);
         
@@ -24,31 +46,43 @@ class TodoListSection extends Component {
 
     addTodo(todo) {
         let todoList = this.state.todoList;
-        let newTodoList = [todo, ...todoList];
+        let newTodo = {
+            value: todo,
+            id: todo + '-' + Date.now()
+        }
+        let newTodoList = [newTodo, ...todoList];
 
         this.setState({
             ...this.state,
-            todoList: newTodoList
+            todoList: newTodoList,
+            inputValue: '',
+            isTemporaryTodoActive: false
         })
     }
 
-    editTodo(todo, newTodo) {
+    editTodo(oldValue, newValue, callback) {
         let todoList = this.state.todoList;
         let newTodoList = [...todoList];
-        let indexOfTodoThatWillBeDeleted = todoList.indexOf(todo);
-
+        let indexOfTodoThatWillBeDeleted = todoList.indexOf(todoList.filter((todo, index) => todo.value === oldValue));
+        let newTodo = {
+            value: newValue,
+            id: newValue + '-' + Date.now()
+        }
+        
         newTodoList.splice(indexOfTodoThatWillBeDeleted, 1, newTodo);
 
         this.setState({
             ...this.state,
-            todoList: newTodoList
-        })
+            todoList: newTodoList,
+            editingTodo: false,
+            idOfTodoClicked: null
+        }, callback)
     }
 
     completeTodo(todo) {
         let todoList = this.state.todoList;
         let newTodoList = [...todoList];
-        let indexOfTodoThatWillBeDeleted = todoList.indexOf(todo);
+        let indexOfTodoThatWillBeDeleted = todoList.indexOf(todoList.filter((todo, index) => todo.value === todo));
         let newCompletedTodoList = [todo, ...this.state.completedTodoList]
 
         newTodoList.splice(indexOfTodoThatWillBeDeleted, 1);
@@ -56,19 +90,50 @@ class TodoListSection extends Component {
         this.setState({
             ...this.state,
             todoList: newTodoList,
-            completedTodoList: newCompletedTodoList
+            completedTodoList: newCompletedTodoList,
+            editingTodo: false
+        })
+    }
+
+    showTemporaryTodo() {
+        if (this.state.isTemporaryTodoActive || this.state.editingTodo) {
+            return;
+        }
+
+        this.setState({
+            ...this.state,
+            isTemporaryTodoActive: true
+        })
+    }
+
+    showEditTodo(e, uniqueId) {
+        if (this.state.editingTodo) {
+            return;
+        }
+
+        this.setState({
+            ...this.state,
+            editingTodo: true,
+            idOfTodoClicked: uniqueId
         })
     }
 
     render() {
         return (
             <TodoListContext.Provider value={{
+                inputValue: this.state.inputValue,
                 todoList: this.state.todoList,
+                editingTodo: this.state.editingTodo,
                 completedTodoList: this.state.completedTodoList,
                 deleteTodo: this.deleteTodo,
                 addTodo: this.addTodo,
                 editTodo: this.editTodo,
-                completeTodo: this.completeTodo
+                completeTodo: this.completeTodo,
+                showTemporaryTodo: this.showTemporaryTodo,
+                isTemporaryTodoActive: this.state.isTemporaryTodoActive,
+                setInputValue: this.setInputValue,
+                showEditTodo: this.showEditTodo,
+                idOfTodoClicked: this.state.idOfTodoClicked
             }}
             >
                 <div className='todo-section'>
