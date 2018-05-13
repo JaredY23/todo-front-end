@@ -1,0 +1,35 @@
+.todo {
+    height: 80px;
+    background-color: #f9f9f9;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    border-bottom: 1px solid #ececec;
+    font-size: 20px;
+}
+
+.todo-input {
+    display: none;
+}
+
+.todo-input.active {
+    display: block;
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 20px;
+    padding: 0 15px;
+}
+
+.todo-val-container {
+    display: none;
+}
+
+.todo-val-container.active {
+    display: block;
+}
+
+.todo-value {
+    padding: 0 15px;
+}

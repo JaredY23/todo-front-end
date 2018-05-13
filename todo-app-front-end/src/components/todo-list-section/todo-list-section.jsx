@@ -106,7 +106,7 @@ class TodoListSection extends Component {
         })
     }
 
-    showEditTodo(e, uniqueId) {
+    showEditTodo(e, uniqueId, callback) {
         if (this.state.editingTodo) {
             return;
         }
@@ -115,7 +115,7 @@ class TodoListSection extends Component {
             ...this.state,
             editingTodo: true,
             idOfTodoClicked: uniqueId
-        })
+        }, callback)
     }
 
     render() {

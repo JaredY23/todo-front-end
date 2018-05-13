@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { TodoListContext } from '../todo-list-section/todo-list-section';
 
+import './todo.css';
+
 class Todo extends Component {
     constructor(props) {
         super(props);
@@ -44,16 +46,14 @@ class Todo extends Component {
 
     render() {
         const { name, uniqueId } = this.props;
-        console.log(name, uniqueId)
         return (
             <TodoListContext.Consumer>
                 {
                     value => {
                         const { idOfTodoClicked, currentTodo, setInputValue, inputValue, addTodo, editTodo, deleteTodo, completeTodo, editingTodo, showEditTodo } = value;
-                        editingTodo ? this.focusInput : null
                         return (
-                            <div className='todo' onClick={(e) => showEditTodo(e, uniqueId)}>
-                                    <input 
+                            <div className='todo' onClick={(e) => showEditTodo(e, uniqueId, this.focusInput)}>
+                                    <input
                                         onClick={this.handlePropagation}
                                         ref={this.inputRef}
                                         className={editingTodo && idOfTodoClicked === uniqueId ? 'todo-input active' : 'todo-input'} 
