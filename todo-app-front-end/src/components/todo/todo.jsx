@@ -2,31 +2,73 @@ import React, { Component } from 'react';
 import { TodoListContext } from '../todo-list-section/todo-list-section';
 
 class Todo extends Component {
-    state = {
-        inputValue: ''
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: '',
+        }
+
+        this.clearInputValue = this.clearInputValue.bind(this);
+        this.handlePropagation = this.handlePropagation.bind(this);
+        this.inputRef = React.createRef();
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.setInputValue = this.setInputValue.bind(this);
+        this.focusInput = this.focusInput.bind(this);
     }
 
-    handleChange = this.handleChange.bind(this);
-
-    handleChange(e) {
+    setInputValue(e) {
         this.setState({
-            inputValue: e.target.value
+            value: e.target.value
         })
     }
 
+    clearInputValue(e) {
+        this.setState({
+            value: ''
+        })
+    }
+
+    handlePropagation(e) {
+        e.stopPropagation();
+    }
+
+    handleKeyDown(e, editTodo, oldValue, newValue) {
+        if (e.keyCode === 13) {
+            editTodo(oldValue, newValue, this.clearInputValue);
+        }
+    }
+
+    focusInput(e) {
+        this.inputRef.current.focus();
+    }
+
     render() {
+        const { name, uniqueId } = this.props;
+        console.log(name, uniqueId)
         return (
             <TodoListContext.Consumer>
                 {
-                    (value) => {
-                        const { addTodo, editTodo, deleteTodo, completeTodo } = value;
+                    value => {
+                        const { idOfTodoClicked, currentTodo, setInputValue, inputValue, addTodo, editTodo, deleteTodo, completeTodo, editingTodo, showEditTodo } = value;
+                        editingTodo ? this.focusInput : null
                         return (
-                            <div className='todo'>
-                                <input className='todo-input' type='text' onChange={this.handleChange} value={this.state.value} />
-                                <div className='todo-icons'>
-                                    <div className='todo-complete'></div>
-                                    <div className='todo-delete'></div>
-                                </div>
+                            <div className='todo' onClick={(e) => showEditTodo(e, uniqueId)}>
+                                    <input 
+                                        onClick={this.handlePropagation}
+                                        ref={this.inputRef}
+                                        className={editingTodo && idOfTodoClicked === uniqueId ? 'todo-input active' : 'todo-input'} 
+                                        type='text' 
+                                        onChange={this.setInputValue} 
+                                        value={this.state.value} 
+                                        onKeyDown={(e) => this.handleKeyDown(e, editTodo, inputValue, this.state.value)}
+                                    />
+                                    <div onClick={this.handlePropagation} className={editingTodo ? 'todo-val-container' : 'todo-val-container active'}>
+                                        <div className='todo-value'>{ name }</div>
+                                        <div className='todo-icons'>
+                                            <div className='todo-complete'></div>
+                                            <div className='todo-delete'></div>
+                                        </div>
+                                    </div>
                             </div>
                         )
                     }
