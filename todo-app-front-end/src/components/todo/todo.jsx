@@ -60,7 +60,7 @@ class Todo extends Component {
                                         type='text' 
                                         onChange={this.setInputValue} 
                                         value={this.state.value} 
-                                        onKeyDown={(e) => this.handleKeyDown(e, editTodo, name, this.state.value)}
+                                        onKeyDown={(e) => this.handleKeyDown(e, editTodo, uniqueId, this.state.value)}
                                     />
                                     <div onClick={this.handlePropagation} className={editingTodo && idOfTodoClicked === uniqueId ? 'todo-val-container' : 'todo-val-container active'}>
                                         <div className='todo-value'>{ name }</div>

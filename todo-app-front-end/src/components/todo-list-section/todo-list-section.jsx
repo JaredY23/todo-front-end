@@ -63,16 +63,16 @@ class TodoListSection extends Component {
         })
     }
 
-    editTodo(oldValue, newValue, callback) {
+    editTodo(uniqueId, newValue, callback) {
         let todoList = this.state.todoList;
         let newTodoList = [...todoList];
-        let indexOfTodoThatWillBeDeleted = todoList.indexOf(todoList.filter((todo, index) => todo.value === oldValue)[0]);
+        let indexOfTodoThatWillBeDeleted = todoList.indexOf(todoList.filter((todo, index) => todo.id === uniqueId)[0]);
 
         let newTodo = {
             value: newValue,
             id: newValue + '-' + Date.now()
         }
-        
+
         newTodoList.splice(indexOfTodoThatWillBeDeleted, 1, newTodo);
 
         this.setState({
