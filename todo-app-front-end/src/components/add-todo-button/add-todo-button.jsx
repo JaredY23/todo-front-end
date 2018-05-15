@@ -8,10 +8,11 @@ const AddTodoButton = () => {
         <TodoListContext.Consumer>
             {
                 value => {
+                    const { addTodo, inputValue } = value;
                     return (
                         <button 
                             className='add-todo-button'
-                            onClick={value.showTemporaryTodo}
+                            onClick={() => value.addTodo(inputValue)}
                         >
                             +
                         </button>
