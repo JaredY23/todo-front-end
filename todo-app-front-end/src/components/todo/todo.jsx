@@ -50,7 +50,7 @@ class Todo extends Component {
             <TodoListContext.Consumer>
                 {
                     value => {
-                        const { idOfTodoClicked, currentTodo, setInputValue, inputValue, addTodo, editTodo, deleteTodo, completeTodo, editingTodo, showEditTodo } = value;
+                        const { idOfTodoClicked, editTodo, deleteTodo, completeTodo, editingTodo, showEditTodo } = value;
                         return (
                             <div className='todo' onClick={(e) => showEditTodo(e, uniqueId, this.focusInput)}>
                                     <input
@@ -60,9 +60,9 @@ class Todo extends Component {
                                         type='text' 
                                         onChange={this.setInputValue} 
                                         value={this.state.value} 
-                                        onKeyDown={(e) => this.handleKeyDown(e, editTodo, inputValue, this.state.value)}
+                                        onKeyDown={(e) => this.handleKeyDown(e, editTodo, name, this.state.value)}
                                     />
-                                    <div onClick={this.handlePropagation} className={editingTodo ? 'todo-val-container' : 'todo-val-container active'}>
+                                    <div onClick={this.handlePropagation} className={editingTodo && idOfTodoClicked === uniqueId ? 'todo-val-container' : 'todo-val-container active'}>
                                         <div className='todo-value'>{ name }</div>
                                         <div className='todo-icons'>
                                             <div className='todo-complete'></div>

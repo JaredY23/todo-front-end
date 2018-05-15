@@ -63,7 +63,8 @@ class TodoListSection extends Component {
     editTodo(oldValue, newValue, callback) {
         let todoList = this.state.todoList;
         let newTodoList = [...todoList];
-        let indexOfTodoThatWillBeDeleted = todoList.indexOf(todoList.filter((todo, index) => todo.value === oldValue));
+        let indexOfTodoThatWillBeDeleted = todoList.indexOf(todoList.filter((todo, index) => todo.value === oldValue)[0]);
+
         let newTodo = {
             value: newValue,
             id: newValue + '-' + Date.now()
@@ -82,7 +83,7 @@ class TodoListSection extends Component {
     completeTodo(todo) {
         let todoList = this.state.todoList;
         let newTodoList = [...todoList];
-        let indexOfTodoThatWillBeDeleted = todoList.indexOf(todoList.filter((todo, index) => todo.value === todo));
+        let indexOfTodoThatWillBeDeleted = todoList.indexOf(todoList.filter((todo, index) => todo.value === todo)[0]);
         let newCompletedTodoList = [todo, ...this.state.completedTodoList]
 
         newTodoList.splice(indexOfTodoThatWillBeDeleted, 1);
