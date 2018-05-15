@@ -9,13 +9,11 @@ class TodoListSection extends Component {
     state = {
         todoList: [],
         completedTodoList:[],
-        isTemporaryTodoActive: false,
         editingTodo: false,
         inputValue: '',
         idOfTodoClicked: null
     }
 
-    showTemporaryTodo = this.showTemporaryTodo.bind(this);
     setInputValue = this.setInputValue.bind(this);
     deleteTodo = this.deleteTodo.bind(this);
     addTodo = this.addTodo.bind(this);
@@ -50,7 +48,9 @@ class TodoListSection extends Component {
             value: todo,
             id: todo + '-' + Date.now()
         }
-        let newTodoList = [newTodo, ...todoList];
+        let newTodoList = [...todoList];
+
+        newTodoList.push(newTodo);
 
         this.setState({
             ...this.state,
@@ -96,17 +96,6 @@ class TodoListSection extends Component {
         })
     }
 
-    showTemporaryTodo() {
-        if (this.state.isTemporaryTodoActive || this.state.editingTodo) {
-            return;
-        }
-
-        this.setState({
-            ...this.state,
-            isTemporaryTodoActive: true
-        })
-    }
-
     showEditTodo(e, uniqueId, callback) {
         if (this.state.editingTodo) {
             return;
@@ -130,8 +119,6 @@ class TodoListSection extends Component {
                 addTodo: this.addTodo,
                 editTodo: this.editTodo,
                 completeTodo: this.completeTodo,
-                showTemporaryTodo: this.showTemporaryTodo,
-                isTemporaryTodoActive: this.state.isTemporaryTodoActive,
                 setInputValue: this.setInputValue,
                 showEditTodo: this.showEditTodo,
                 idOfTodoClicked: this.state.idOfTodoClicked
