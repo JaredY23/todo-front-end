@@ -1,5 +1,5 @@
 import React from 'react';
-import { Todo, TodoHeader, AddTodoButton, TemportaryInput } from '../../components';
+import { Todo, TodoHeader } from '../../components';
 import { TodoListContext } from '../todo-list-section/todo-list-section';
 
 import './todo-list.css';
@@ -11,12 +11,12 @@ const TodoList = () => {
                 <TodoListContext.Consumer>
                     {
                         value => {
+                            const { todoList } = value;
                             return (
                                 <React.Fragment>
-                                    { value.isTemporaryTodoActive ? <TemportaryInput /> : null }
                                     <ul className='todo-list'>
                                         {
-                                            value.todoList.length > 0 && value.todoList !== null ? value.todoList.map((todo, index) => (
+                                            todoList.length > 0 && todoList !== null ? todoList.map((todo, index) => (
                                                 <Todo uniqueId={todo.id} name={todo.value} key={`${todo}-${index}`} />
                                             ))
                                             :
@@ -28,7 +28,6 @@ const TodoList = () => {
                         }
                     }
                 </TodoListContext.Consumer>
-            <AddTodoButton />
         </div>
     )
 }

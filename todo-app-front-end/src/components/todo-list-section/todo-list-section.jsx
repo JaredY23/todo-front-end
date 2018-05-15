@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TodoList } from '../../components';
+import { TodoList, AddTodoSection } from '../../components';
 
 import './todo-list-section.css';
 
@@ -139,6 +139,7 @@ class TodoListSection extends Component {
             >
                 <div className='todo-section'>
                     <TodoList />
+                    <AddTodoSection />
                 </div>
             </TodoListContext.Provider>
         )
