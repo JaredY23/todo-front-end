@@ -43,6 +43,9 @@ class TodoListSection extends Component {
     } 
 
     addTodo(todo) {
+        if (todo === null || todo === '') {
+            return
+        }
         let todoList = this.state.todoList;
         let newTodo = {
             value: todo,
